@@ -1,12 +1,20 @@
 'use client';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
+import { Button } from '@heroui/button';
 
 export default function Profile() {
-  const session = useSession();
+  const { data, status } = useSession();
+  console.log({ status });
 
-  if (session.data?.user) {
+  if (data?.user) {
     return (
-      <div>From client: {JSON.stringify(session.data.user)}</div>
+      <div>
+        <div>From client: {JSON.stringify(data.user)}</div>
+        <Button
+          onPress={() => signOut()}>
+          Sign out
+        </Button>
+      </div>
     )
   }
 
