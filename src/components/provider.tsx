@@ -1,11 +1,14 @@
 'use client';
-import { HeroUIProvider } from '@heroui/react';
 import { PropsWithChildren } from 'react';
+import { HeroUIProvider } from '@heroui/react';
+import { SessionProvider } from 'next-auth/react';
 
 export default function Provider({ children }: Readonly<PropsWithChildren>) {
   return (
-    <HeroUIProvider>
-      {children}
-    </HeroUIProvider>
+    <SessionProvider>
+      <HeroUIProvider>
+        {children}
+      </HeroUIProvider>
+    </SessionProvider>
   );
 }

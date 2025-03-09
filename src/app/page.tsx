@@ -1,6 +1,7 @@
 import { Button } from '@heroui/button';
 import * as actions from '@/actions';
 import { auth } from '@/auth';
+import Profile from '@/components/Profile';
 
 export default async function Home() {
 
@@ -8,7 +9,6 @@ export default async function Home() {
 
   return (
     <div>
-
       <div className="p-4 bg-blue-500 text-white text-center">
         ¡Tailwind works!
       </div>
@@ -26,6 +26,8 @@ export default async function Home() {
       ) : (
         <div>Signed Out</div>
       )}
+
+      <Profile/>
     </div>
   );
 }
