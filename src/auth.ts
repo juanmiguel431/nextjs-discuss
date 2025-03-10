@@ -16,6 +16,7 @@ export const {
   signOut, // TODO There is a bug in this function because it doesn't update the auth client session, meanwhile use: import { signOut } from 'next-auth/react';
   signIn
 } = NextAuth({
+  trustHost: process.env.APP_ENV !== 'production',
   adapter: PrismaAdapter(db),
   providers: [
     GitHub({
