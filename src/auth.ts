@@ -13,7 +13,7 @@ if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
 export const {
   handlers: { GET, POST },
   auth,
-  signOut,
+  signOut, // TODO There is a bug in this function because it doesn't update the auth client session, meanwhile use: import { signOut } from 'next-auth/react';
   signIn
 } = NextAuth({
   adapter: PrismaAdapter(db),
