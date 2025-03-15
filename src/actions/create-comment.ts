@@ -61,13 +61,13 @@ export async function createComment({ postId, parentId }: CommentRelation, formS
           _form: [err.message],
         },
       };
-    } else {
-      return {
-        errors: {
-          _form: ['Something went wrong...'],
-        },
-      };
     }
+
+    return {
+      errors: {
+        _form: ['Something went wrong...'],
+      },
+    };
   }
 
   const topic = await db.topic.findFirst({
