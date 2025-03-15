@@ -1,6 +1,11 @@
 'use server';
 import { z } from 'zod';
 import { auth } from '@/auth';
+import type { Topic } from '@prisma/client';
+import { redirect } from 'next/navigation';
+import { db } from '@/db';
+import paths from '@/path';
+import { revalidatePath } from 'next/cache';
 
 const createTopicSchema = z.object({
   name: z.string().min(3.).regex(/^[a-z-]+$/, {
@@ -39,7 +44,30 @@ export async function createTopic(formState: CreateTopicFormState, formData: For
     };
   }
 
-  return {
-    errors: {}
+  let topic: Topic;
+  try {
+    topic = await db.topic.create({
+      data: {
+        slug: result.data.name,
+        description: result.data.description,
+      }
+    })
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return {
+        errors: {
+          _form: [err.message]
+        }
+      }
+    }
+
+    return {
+      errors: {
+        _form: ['Something went wrong'],
+      }
+    }
   }
+
+  revalidatePath('/');
+  redirect(paths.topicShow(topic.slug))
 }

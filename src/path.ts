@@ -4,7 +4,7 @@ const path = {
     return '/';
   },
   topicShow(topic: string) {
-    return `/${topic}`;
+    return `/topics/${topic}`;
   },
   postCreate(topic: string) {
     return `/topics/${topic}/posts/new`;
