@@ -1,3 +1,4 @@
+'use client';
 import { Form } from '@heroui/form';
 import { Textarea } from '@heroui/input';
 import { Button } from '@heroui/button';
@@ -7,7 +8,7 @@ import * as actions from '@/actions';
 type Props = Readonly<{
   postId: string;
   parentId?: string;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 }>
 
 export default function CommentCreateForm({ postId, parentId, onSuccess }: Props) {
@@ -16,7 +17,7 @@ export default function CommentCreateForm({ postId, parentId, onSuccess }: Props
   const ref = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (formState.success) {
+    if (formState.success && onSuccess) {
       onSuccess();
     }
   }, [formState, onSuccess]);

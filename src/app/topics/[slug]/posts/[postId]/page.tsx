@@ -4,6 +4,7 @@ import CommentList from '@/components/comments/CommentList';
 import CommentCreateFormButton from '@/components/comments/CommentCreateFormButton';
 import paths from '@/path';
 import React from 'react';
+import { fetchCommentsByPostId } from '@/db/queries/comments';
 
 type Props = Readonly<{
   params: Promise<{
@@ -22,7 +23,7 @@ export default async function PostShowPage({ params }: Props) {
       </Link>
       <PostShow postId={postId}/>
       <CommentCreateFormButton postId={postId} startOpen/>
-      {/* <CommentList comments={comments} /> */}
+      <CommentList fetchData={() => fetchCommentsByPostId(postId)}/>
     </div>
   );
 }
