@@ -1,3 +1,4 @@
+'use client';
 import { Form } from '@heroui/form';
 import { Input, Textarea } from '@heroui/input';
 import { Button } from '@heroui/button';
@@ -5,7 +6,7 @@ import React, { startTransition, useActionState, useCallback } from 'react';
 import * as actions from '@/actions';
 
 export default function TopicCreateForm() {
-  const [formState, action] = useActionState(actions.createTopic, { errors: {}});
+  const [formState, action, isPending] = useActionState(actions.createTopic, { errors: {}});
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,7 +43,11 @@ export default function TopicCreateForm() {
             {formState.errors._form?.join(', ')}
           </div>
         )}
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          isLoading={isPending}>
+          Submit
+        </Button>
       </div>
     </Form>
   );

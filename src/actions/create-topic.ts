@@ -23,7 +23,7 @@ export type CreateTopicFormState = {
 }
 
 export async function createTopic(formState: CreateTopicFormState, formData: FormData): Promise<CreateTopicFormState> {
-
+  await new Promise(r => setTimeout(r, 1000));
   const session = await auth();
   if (!session?.user) {
     return {
