@@ -18,9 +18,7 @@ export default function PostCreateForm({ slug }: Props) {
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    startTransition(() => {
-      action(formData);
-    });
+    startTransition(() => action(formData));
   }, [action]);
 
   return (

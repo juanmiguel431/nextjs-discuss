@@ -10,19 +10,22 @@ const createCommentSchema = z.object({
   content: z.string().min(3),
 });
 
-interface CreateCommentFormState {
+type CreateCommentFormState = {
+  success?: boolean;
   errors: {
     content?: string[];
     _form?: string[];
   };
-  success?: boolean;
 }
 
-export async function createComment(
-  { postId, parentId }: { postId: string; parentId?: string },
-  formState: CreateCommentFormState,
-  formData: FormData
-): Promise<CreateCommentFormState> {
+type CommentRelation = {
+  postId: string;
+  parentId?: string
+}
+
+export async function createComment({ postId, parentId }: CommentRelation, formState: CreateCommentFormState, formData: FormData)
+  : Promise<CreateCommentFormState> {
+
   const result = createCommentSchema.safeParse({
     content: formData.get('content'),
   });

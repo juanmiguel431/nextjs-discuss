@@ -1,61 +1,50 @@
-'use client';
-import { useEffect, useRef, useState, useActionState } from 'react';
-import * as actions from '@/actions';
+import { Form } from '@heroui/form';
 import { Textarea } from '@heroui/input';
 import { Button } from '@heroui/button';
+import React, { startTransition, useActionState, useCallback, useEffect, useMemo, useRef } from 'react';
+import * as actions from '@/actions';
 
 type Props = Readonly<{
   postId: string;
   parentId?: string;
-  startOpen?: boolean;
+  onSuccess: () => void;
 }>
 
-export default function CommentCreateForm({ postId, parentId, startOpen, }: Props) {
-  const [open, setOpen] = useState(startOpen);
-  const ref = useRef<HTMLFormElement | null>(null);
-  const [formState, action, isPending] = useActionState(
-    actions.createComment.bind(null, { postId, parentId }),
-    { errors: {} }
-  );
+export default function CommentCreateForm({ postId, parentId, onSuccess }: Props) {
+  const serverAction = useMemo(() => actions.createComment.bind(null, { postId, parentId }), [postId, parentId]);
+  const [formState, action, isPending] = useActionState(serverAction, { errors: {} });
+  const ref = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (formState.success) {
-      ref.current?.reset();
-
-      if (!startOpen) {
-        setOpen(false);
-      }
+      onSuccess();
     }
-  }, [formState, startOpen]);
+  }, [formState, onSuccess]);
 
-  const form = (
-    <form action={action} ref={ref}>
-      <div className="space-y-2 px-1">
+  const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => action(formData));
+  }, [action]);
+
+  return (
+    <Form onSubmit={handleSubmit} validationBehavior="aria" ref={ref}>
+      <div className="space-y-2 px-1 w-full">
         <Textarea
           name="content"
-          label="Reply"
           placeholder="Enter your comment"
           isInvalid={!!formState.errors.content}
           errorMessage={formState.errors.content?.join(', ')}
         />
 
-        {formState.errors._form ? (
+        {formState.errors._form && (
           <div className="p-2 bg-red-200 border rounded border-red-400">
             {formState.errors._form?.join(', ')}
           </div>
-        ) : null}
+        )}
 
         <Button isLoading={isPending} type="submit">Create Comment</Button>
       </div>
-    </form>
-  );
-
-  return (
-    <div>
-      <Button size="sm" variant="light" onPress={() => setOpen(!open)}>
-        Reply
-      </Button>
-      {open && form}
-    </div>
+    </Form>
   );
 }

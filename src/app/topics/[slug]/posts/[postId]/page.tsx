@@ -1,8 +1,9 @@
-import Link from "next/link";
-import PostShow from "@/components/posts/PostShow";
-import CommentList from "@/components/comments/CommentList";
-import CommentCreateForm from "@/components/comments/CommentCreateForm";
-import paths from "@/path";
+import Link from 'next/link';
+import PostShow from '@/components/posts/PostShow';
+import CommentList from '@/components/comments/CommentList';
+import CommentCreateFormButton from '@/components/comments/CommentCreateFormButton';
+import paths from '@/path';
+import React from 'react';
 
 type Props = Readonly<{
   params: Promise<{
@@ -17,10 +18,10 @@ export default async function PostShowPage({ params }: Props) {
   return (
     <div className="space-y-3">
       <Link className="underline decoration-solid" href={paths.topicShow(slug)}>
-        {"< "}Back to {slug}
+        {'< '}Back to {slug}
       </Link>
-       <PostShow postId={postId}/>
-      {/* <CommentCreateForm postId={postId} startOpen /> */}
+      <PostShow postId={postId}/>
+      <CommentCreateFormButton postId={postId} startOpen/>
       {/* <CommentList comments={comments} /> */}
     </div>
   );
