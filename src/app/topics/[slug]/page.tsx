@@ -1,4 +1,6 @@
 import PostCreateFormPopover from '@/components/posts/PostCreateFormPopover';
+import { fetchPostByTopicSlug } from '@/db/queries/post';
+import PostList from '@/components/posts/PostList';
 
 type Params = Promise<{
   slug: string;
@@ -18,6 +20,7 @@ export default async function TopicShowPage({ params }: Props) {
         <h1 className="text-2xl font-bold mb-2">
           {slug}
         </h1>
+        <PostList fetchData={() => fetchPostByTopicSlug(slug)} />
       </div>
       <div>
         <PostCreateFormPopover slug={slug}/>
