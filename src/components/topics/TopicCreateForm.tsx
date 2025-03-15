@@ -5,9 +5,19 @@ import { Input, Textarea } from '@heroui/input';
 import * as actions from '@/actions';
 import React, { useActionState, startTransition, useCallback } from 'react';
 import { Form } from '@heroui/form';
+import { CreateTopicFormState } from '@/actions';
 
 export default function TopicCreateForm() {
-  const [formState, action] = useActionState(actions.createTopic, { errors: {}});
+
+  const _action = useCallback(async (state: CreateTopicFormState, payload: FormData | null): Promise<CreateTopicFormState> => {
+    if (!payload) {
+      return { errors: {}};
+    }
+
+    return await actions.createTopic(state, payload);
+  }, []);
+
+  const [formState, action] = useActionState(_action, { errors: {}});
 
   const handleSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,8 +27,14 @@ export default function TopicCreateForm() {
     });
   }, [action]);
 
+  const onPopoverClose = useCallback(() => {
+    startTransition(() => action(null));
+  }, [action]);
+
   return (
-    <Popover placement="left">
+    <Popover
+      placement="left"
+      onClose={onPopoverClose}>
       <PopoverTrigger>
         <Button color="primary">Create a Topic</Button>
       </PopoverTrigger>
