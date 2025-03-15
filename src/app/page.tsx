@@ -1,4 +1,4 @@
-import TopicCreateForm from '@/components/topics/TopicCreateForm';
+import TopicCreateFormPopover from '@/components/topics/TopicCreateFormPopover';
 
 export default function Home() {
 
@@ -8,7 +8,7 @@ export default function Home() {
         <h1 className="text-xl m-2">Topic Post</h1>
       </div>
       <div>
-        <TopicCreateForm/>
+        <TopicCreateFormPopover/>
       </div>
     </div>
   );
