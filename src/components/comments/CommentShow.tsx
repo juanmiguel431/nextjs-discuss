@@ -1,13 +1,14 @@
 import Image from 'next/image';
-import { CommentWithAuthor } from '@/db/queries/comments';
+import { fetchCommentsByPostId } from '@/db/queries/comments';
 import CommentCreateFormButton from '@/components/comments/CommentCreateFormButton';
 
 type Props = Readonly<{
   commentId: string;
-  comments: CommentWithAuthor[];
+  postId: string;
 }>
 
-export default function CommentShow({ commentId, comments }: Props) {
+export default async function CommentShow({ commentId, postId }: Props) {
+  const comments = await fetchCommentsByPostId(postId);
   const comment = comments.find((c) => c.id === commentId);
 
   if (!comment) {
@@ -40,7 +41,7 @@ export default function CommentShow({ commentId, comments }: Props) {
       </div>
       <div className="pl-4">
         {children.map((child) => (
-          <CommentShow key={child.id} commentId={child.id} comments={comments}/>
+          <CommentShow key={child.id} commentId={child.id} postId={postId}/>
         ))}
       </div>
     </div>
