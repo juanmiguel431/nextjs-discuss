@@ -3,16 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "dotenv -e .env.local -- next dev",
+    "dev:turbopack": "next dev --turbopack",
     "dev-web": "next dev",
-    "build": "next build",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:db": "docker run --rm -p 6000:5432 -v postgres-data:/var/lib/postgresql/data -e POSTGRES_HOST_AUTH_METHOD=trust postgres",
+    "prisma:migrate:local": "dotenv -e .env.local -- npx prisma migrate dev --schema=prisma/schema.prisma",
+    "prisma:generate:local": "dotenv -e .env.local -- npx prisma generate --schema=prisma/schema.prisma",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/core": "~0.38.0",
     "@auth/prisma-adapter": "~2.8.0",
     "@prisma/client": "~6.4.1",
+    "dotenv-cli": "^8.0.0",
     "next": "~15.2.1",
     "next-auth": "~5.0.0-beta.25",
     "prisma": "~6.4.1",
