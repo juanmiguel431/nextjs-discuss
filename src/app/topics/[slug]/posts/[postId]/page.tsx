@@ -5,6 +5,7 @@ import CommentCreateFormButton from '@/components/comments/CommentCreateFormButt
 import paths from '@/path';
 import React, { Suspense } from 'react';
 import { Spinner } from '@heroui/spinner';
+import PostShowLoading from '@/components/posts/PostShowLoading';
 
 type Props = Readonly<{
   params: Promise<{
@@ -22,11 +23,7 @@ export default async function PostShowPage({ params }: Props) {
         {'< '}Back to {slug}
       </Link>
 
-      <Suspense fallback={(
-        <div className="m-4">
-          <Spinner/>
-        </div>
-      )}>
+      <Suspense fallback={(<PostShowLoading/>)}>
         <PostShow postId={postId}/>
       </Suspense>
 
