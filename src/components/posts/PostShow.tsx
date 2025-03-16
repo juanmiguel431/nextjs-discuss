@@ -6,6 +6,7 @@ type Props = Readonly<{
 }>
 
 export default async function PostShow({ postId }: Props) {
+  await new Promise(r => setTimeout(r, 1500));
   const post = await db.post.findFirst({
     where: { id: postId },
   });
