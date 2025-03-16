@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/navbar';
-import { Input } from '@heroui/input';
+import SearchInput from '@/components/SearchInput';
 import path from '@/path';
 import React from 'react';
 import HeaderAuth from '@/components/HeaderAuth';
@@ -13,10 +13,9 @@ export default function Header() {
       </NavbarBrand>
       <NavbarContent justify="center">
         <NavbarItem>
-          <Input/>
+          <SearchInput/>
         </NavbarItem>
       </NavbarContent>
-
       <NavbarContent justify="end">
         <HeaderAuth/>
       </NavbarContent>
